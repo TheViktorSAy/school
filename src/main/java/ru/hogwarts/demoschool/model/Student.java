@@ -1,5 +1,7 @@
 package ru.hogwarts.demoschool.model;
 
+import java.util.Objects;
+
 public class Student {
     private Long id;
     private String name;
@@ -34,5 +36,20 @@ public class Student {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, age);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Student student = (Student) obj;
+        return age == student.age &&
+                Objects.equals(id, student.id) &&
+                Objects.equals(name, student.name);
     }
 }
