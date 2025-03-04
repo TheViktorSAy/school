@@ -1,5 +1,6 @@
 package ru.hogwarts.demoschool.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.demoschool.model.Faculty;
 import ru.hogwarts.demoschool.service.FacultyService;
@@ -7,13 +8,15 @@ import ru.hogwarts.demoschool.service.FacultyService;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-
-
 @RestController
 @RequestMapping("/faculty")
 public class FacultyController {
-    private final FacultyService facultyService = new FacultyService();
+    private final FacultyService facultyService;
+
+    @Autowired
+    public FacultyController(FacultyService facultyService) {
+        this.facultyService = facultyService;
+    }
 
     @PostMapping
     public Faculty createFaculty(@RequestParam String name, @RequestParam String color) {
@@ -27,7 +30,7 @@ public class FacultyController {
 
     @GetMapping
     public List<Faculty> getAllFaculties() {
-        return facultyService.getAllFaculties().values().stream().collect(Collectors.toList());
+        return facultyService.getAllFaculties();
     }
 
     @PutMapping("/{id}")
@@ -38,12 +41,5 @@ public class FacultyController {
     @DeleteMapping("/{id}")
     public void deleteFaculty(@PathVariable Long id) {
         facultyService.deleteFaculty(id);
-    }
-
-    @GetMapping("/color/{color}")
-    public List<Faculty> filterFacultiesByColor(@PathVariable String color) {
-        return facultyService.getAllFaculties().values().stream()
-                .filter(faculty -> faculty.getColor().equalsIgnoreCase(color))
-                .collect(Collectors.toList());
     }
 }

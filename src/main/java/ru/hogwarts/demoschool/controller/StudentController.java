@@ -1,5 +1,6 @@
 package ru.hogwarts.demoschool.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.demoschool.model.Student;
 import ru.hogwarts.demoschool.service.StudentService;
@@ -7,13 +8,15 @@ import ru.hogwarts.demoschool.service.StudentService;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-
-
 @RestController
 @RequestMapping("/student")
 public class StudentController {
-    private final StudentService studentService = new StudentService();
+    private final StudentService studentService;
+
+    @Autowired
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
+    }
 
     @PostMapping
     public Student createStudent(@RequestParam String name, @RequestParam int age) {
@@ -27,7 +30,7 @@ public class StudentController {
 
     @GetMapping
     public List<Student> getAllStudents() {
-        return studentService.getAllStudents().values().stream().collect(Collectors.toList());
+        return studentService.getAllStudents();
     }
 
     @PutMapping("/{id}")
@@ -42,7 +45,7 @@ public class StudentController {
 
     @GetMapping("/age/{age}")
     public List<Student> filterStudentsByAge(@PathVariable int age) {
-        return studentService.getAllStudents().values().stream()
+        return studentService.getAllStudents().stream()
                 .filter(student -> student.getAge() == age)
                 .collect(Collectors.toList());
     }
