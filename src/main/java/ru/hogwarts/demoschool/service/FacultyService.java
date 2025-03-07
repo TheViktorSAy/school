@@ -17,37 +17,39 @@ public class FacultyService {
         this.facultyRepository = facultyRepository;
     }
 
-    public Faculty createFaculty(String name, String color) {
-        Faculty faculty = new Faculty(null, name, color);
+    public Faculty createFaculty(String namefaculty, String colorfaculty) { // Изменено на namefaculty и colorfaculty
+        Faculty faculty = new Faculty(null, namefaculty, colorfaculty);
         return facultyRepository.save(faculty);
     }
 
-    public Faculty getFaculty(Long id) {
-        return facultyRepository.findById(id).orElse(null);
+    public Faculty getFaculty(Long idfaculty) { // Изменено на idfaculty
+        return facultyRepository.findById(idfaculty).orElse(null);
     }
 
     public List<Faculty> getAllFaculties() {
         return facultyRepository.findAll();
     }
 
-    public Faculty updateFaculty(Long id, String name, String color) {
-        Faculty faculty = facultyRepository.findById(id).orElse(null);
+    public Faculty updateFaculty(Long idfaculty, String namefaculty, String colorfaculty) { // Изменено на idfaculty, namefaculty и colorfaculty
+        Faculty faculty = facultyRepository.findById(idfaculty).orElse(null);
         if (faculty != null) {
-            faculty.setName(name);
-            faculty.setColor(color);
+            faculty.setNamefaculty(namefaculty); // Изменено на setNamefaculty
+            faculty.setColorfaculty(colorfaculty); // Изменено на setColorfaculty
             return facultyRepository.save(faculty);
         }
         return null;
     }
 
-    public void deleteFaculty(Long id) {
-        facultyRepository.deleteById(id);
+    public void deleteFaculty(Long idfaculty) { // Изменено на idfaculty
+        facultyRepository.deleteById(idfaculty);
     }
+
     public List<Faculty> searchFaculties(String query) {
-        return facultyRepository.findByNameIgnoreCaseContainingOrColorIgnoreCaseContaining(query, query);
+        return facultyRepository.findByNamefacultyIgnoreCaseContainingOrColorfacultyIgnoreCaseContaining(query, query); // Изменено на namefaculty и colorfaculty
     }
-    public List<Student> getStudentsByFaculty(Long facultyId) {
-        Faculty faculty = facultyRepository.findById(facultyId).orElse(null);
+
+    public List<Student> getStudentsByFaculty(Long idfaculty) { // Изменено на idfaculty
+        Faculty faculty = facultyRepository.findById(idfaculty).orElse(null);
         return faculty != null ? faculty.getStudents() : null;
     }
 }

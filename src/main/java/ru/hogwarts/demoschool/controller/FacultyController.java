@@ -7,7 +7,6 @@ import ru.hogwarts.demoschool.model.Student;
 import ru.hogwarts.demoschool.service.FacultyService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/faculty")
@@ -20,13 +19,13 @@ public class FacultyController {
     }
 
     @PostMapping
-    public Faculty createFaculty(@RequestParam String name, @RequestParam String color) {
-        return facultyService.createFaculty(name, color);
+    public Faculty createFaculty(@RequestParam String namefaculty, @RequestParam String colorfaculty) {
+        return facultyService.createFaculty(namefaculty, colorfaculty);
     }
 
-    @GetMapping("/{id}")
-    public Faculty getFaculty(@PathVariable Long id) {
-        return facultyService.getFaculty(id);
+    @GetMapping("/{idfaculty}") // Изменено на {idfaculty}
+    public Faculty getFaculty(@PathVariable Long idfaculty) {
+        return facultyService.getFaculty(idfaculty);
     }
 
     @GetMapping
@@ -34,21 +33,23 @@ public class FacultyController {
         return facultyService.getAllFaculties();
     }
 
-    @PutMapping("/{id}")
-    public Faculty updateFaculty(@PathVariable Long id, @RequestParam String name, @RequestParam String color) {
-        return facultyService.updateFaculty(id, name, color);
+    @PutMapping("/{idfaculty}") // Изменено на {idfaculty}
+    public Faculty updateFaculty(@PathVariable Long idfaculty, @RequestParam String namefaculty, @RequestParam String colorfaculty) {
+        return facultyService.updateFaculty(idfaculty, namefaculty, colorfaculty);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteFaculty(@PathVariable Long id) {
-        facultyService.deleteFaculty(id);
+    @DeleteMapping("/{idfaculty}") // Изменено на {idfaculty}
+    public void deleteFaculty(@PathVariable Long idfaculty) {
+        facultyService.deleteFaculty(idfaculty);
     }
+
     @GetMapping("/search")
     public List<Faculty> searchFaculties(@RequestParam String query) {
         return facultyService.searchFaculties(query);
     }
-    @GetMapping("/{id}/students")
-    public List<Student> getStudentsByFaculty(@PathVariable Long id) {
-        return facultyService.getStudentsByFaculty(id);
+
+    @GetMapping("/{idfaculty}/students") // Изменено на {idfaculty}
+    public List<Student> getStudentsByFaculty(@PathVariable Long idfaculty) {
+        return facultyService.getStudentsByFaculty(idfaculty);
     }
 }

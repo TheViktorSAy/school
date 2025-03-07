@@ -8,45 +8,45 @@ import java.util.Objects;
 public class Faculty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
-    private String color;
+    private Long IDfaculty; // Изменено на IDfaculty
+    private String namefaculty; // Оставлено без изменений
+    private String colorfaculty; // Оставлено без изменений
 
-    @OneToMany(mappedBy = "faculty")
-    private List<Student> students;
+    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Student> students; // Оставлено без изменений
 
     public Faculty() {
     }
 
-    public Faculty(Long id, String name, String color) {
-        this.id = id;
-        this.name = name;
-        this.color = color;
+    public Faculty(Long IDfaculty, String namefaculty, String colorfaculty) { // Обновленный конструктор
+        this.IDfaculty = IDfaculty;
+        this.namefaculty = namefaculty;
+        this.colorfaculty = colorfaculty;
     }
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
+    // Геттеры и сеттеры
+    public Long getIDfaculty() { // Изменено на getIDfaculty
+        return IDfaculty;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIDfaculty(Long IDfaculty) { // Изменено на setIDfaculty
+        this.IDfaculty = IDfaculty;
     }
 
-    public String getName() {
-        return name;
+    public String getNamefaculty() {
+        return namefaculty;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNamefaculty(String namefaculty) {
+        this.namefaculty = namefaculty;
     }
 
-    public String getColor() {
-        return color;
+    public String getColorfaculty() {
+        return colorfaculty;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setColorfaculty(String colorfaculty) {
+        this.colorfaculty = colorfaculty;
     }
 
     public List<Student> getStudents() {
@@ -59,7 +59,7 @@ public class Faculty {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, color);
+        return Objects.hash(IDfaculty, namefaculty, colorfaculty);
     }
 
     @Override
@@ -67,8 +67,8 @@ public class Faculty {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Faculty faculty = (Faculty) obj;
-        return Objects.equals(id, faculty.id) &&
-                Objects.equals(name, faculty.name) &&
-                Objects.equals(color, faculty.color);
+        return Objects.equals(IDfaculty, faculty.IDfaculty) &&
+                Objects.equals(namefaculty, faculty.namefaculty) &&
+                Objects.equals(colorfaculty, faculty.colorfaculty);
     }
 }

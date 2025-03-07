@@ -7,30 +7,31 @@ import java.util.Objects;
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
-    private int age;
+    private Long ID; // Поле ID
+
+    private String name; // Поле name
+    private int age; // Поле age
 
     @ManyToOne
-    @JoinColumn(name = "faculty_id")
-    private Faculty faculty;
+    @JoinColumn(name = "faculty_id", nullable = false)
+    private Faculty faculty; // Связь с Faculty
 
-    public Student() {
-    }
+    // Конструкторы
+    public Student() {}
 
-    public Student(Long id, String name, int age) {
-        this.id = id;
+    public Student(String name, int age, Faculty faculty) {
         this.name = name;
         this.age = age;
+        this.faculty = faculty;
     }
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
+    // Геттеры и сеттеры
+    public Long getID() { // Метод getID
+        return ID;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setID(Long ID) { // Метод setID
+        this.ID = ID;
     }
 
     public String getName() {
@@ -59,7 +60,7 @@ public class Student {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, age);
+        return Objects.hash(ID, name, age);
     }
 
     @Override
@@ -68,7 +69,7 @@ public class Student {
         if (obj == null || getClass() != obj.getClass()) return false;
         Student student = (Student) obj;
         return age == student.age &&
-                Objects.equals(id, student.id) &&
+                Objects.equals(ID, student.ID) &&
                 Objects.equals(name, student.name);
     }
 }

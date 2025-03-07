@@ -8,6 +8,9 @@ import ru.hogwarts.demoschool.service.StudentService;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import ru.hogwarts.demoschool.dto.StudentDTO;
+import ru.hogwarts.demoschool.model.Faculty;
+
 @RestController
 @RequestMapping("/student")
 public class StudentController {
@@ -19,13 +22,19 @@ public class StudentController {
     }
 
     @PostMapping
-    public Student createStudent(@RequestParam String name, @RequestParam int age, @RequestParam Long facultyId) {
-        return studentService.createStudent(name, age, facultyId);
+    public Student createStudent(@RequestParam String name, @RequestParam int age, @RequestParam Long ID) { // Изменено на ID
+        return studentService.createStudent(name, age, ID);
     }
 
     @GetMapping("/{id}")
-    public Student getStudent(@PathVariable Long id) {
-        return studentService.getStudent(id);
+    public StudentDTO getStudent(@PathVariable Long id) {
+        Student student = studentService.getStudent(id);
+        if (student != null) {
+            Faculty faculty = student.getFaculty();
+            return new StudentDTO(student.getID(), student.getName(), student.getAge(),
+                    faculty.getIDfaculty(), faculty.getColorfaculty());
+        }
+        return null; // Или выбросьте исключение, если студент не найден
     }
 
     @GetMapping
@@ -33,12 +42,12 @@ public class StudentController {
         return studentService.getAllStudents();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}") // Изменено на {id}
     public Student updateStudent(@PathVariable Long id, @RequestParam String name, @RequestParam int age) {
         return studentService.updateStudent(id, name, age);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") // Изменено на {id}
     public void deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
     }
@@ -49,9 +58,9 @@ public class StudentController {
                 .filter(student -> student.getAge() == age)
                 .collect(Collectors.toList());
     }
+
     @GetMapping("/age")
     public List<Student> filterStudentsByAgeRange(@RequestParam int min, @RequestParam int max) {
         return studentService.getStudentsByAgeRange(min, max);
     }
-
 }
