@@ -19,8 +19,8 @@ public class StudentController {
     }
 
     @PostMapping
-    public Student createStudent(@RequestParam String name, @RequestParam int age) {
-        return studentService.createStudent(name, age);
+    public Student createStudent(@RequestParam String name, @RequestParam int age, @RequestParam Long facultyId) {
+        return studentService.createStudent(name, age, facultyId);
     }
 
     @GetMapping("/{id}")
@@ -49,4 +49,9 @@ public class StudentController {
                 .filter(student -> student.getAge() == age)
                 .collect(Collectors.toList());
     }
+    @GetMapping("/age")
+    public List<Student> filterStudentsByAgeRange(@RequestParam int min, @RequestParam int max) {
+        return studentService.getStudentsByAgeRange(min, max);
+    }
+
 }

@@ -3,6 +3,7 @@ package ru.hogwarts.demoschool.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.demoschool.model.Faculty;
+import ru.hogwarts.demoschool.model.Student;
 import ru.hogwarts.demoschool.repository.FacultyRepository;
 
 import java.util.List;
@@ -41,5 +42,12 @@ public class FacultyService {
 
     public void deleteFaculty(Long id) {
         facultyRepository.deleteById(id);
+    }
+    public List<Faculty> searchFaculties(String query) {
+        return facultyRepository.findByNameIgnoreCaseContainingOrColorIgnoreCaseContaining(query, query);
+    }
+    public List<Student> getStudentsByFaculty(Long facultyId) {
+        Faculty faculty = facultyRepository.findById(facultyId).orElse(null);
+        return faculty != null ? faculty.getStudents() : null;
     }
 }
