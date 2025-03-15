@@ -21,7 +21,17 @@ INSERT INTO public.hogwarts (ID, name, age, "namefaculty", "colorfaculty", "idfa
 VALUES (10, 'Гарри Поттер', 11, 'Гриффендор', 'Красный', 1);
 
 INSERT INTO public.hogwarts (ID, name, age, "namefaculty", "colorfaculty", "idfaculty")
-VALUES (10, 'Гермиона', 12, 'Гриффендор', 'Красный', 1);
+VALUES (11, 'Гермиона', 12, 'Гриффендор', 'Красный', 1);
 
 INSERT INTO public.hogwarts (ID, name, age, "namefaculty", "colorfaculty", "idfaculty")
 VALUES (10, 'Василий', 50, 'Гриффендор', 'Красный', 1);
+
+
+DELETE FROM public.hogwarts WHERE name = 'Василий';
+
+DELETE FROM public.hogwarts WHERE name = 'Гермиона';
+
+INSERT INTO public.hogwarts (ID, name, age, "namefaculty", "colorfaculty", "idfaculty")
+VALUES (12, 'Павел', 50, 'Гриффендор', 'Красный', 1);
+
+DELETE FROM public.hogwarts WHERE name = 'Павел';

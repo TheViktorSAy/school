@@ -1,27 +1,27 @@
 package ru.hogwarts.demoschool.dto;
 
 public class StudentDTO {
-    private Long ID; // Изменено на ID
+    private Long id;
     private String name;
     private int age;
-    private Long facultyId; // Изменено на facultyId
-    private String facultyColor; // Изменено на facultyColor
+    private Long facultyId;
 
-    public StudentDTO(Long ID, String name, int age, Long facultyId, String facultyColor) { // Изменено на ID
-        this.ID = ID;
+    public StudentDTO() {}
+
+    public StudentDTO(Long id, String name, int age, Long facultyId) {
+        this.id = id;
         this.name = name;
         this.age = age;
         this.facultyId = facultyId;
-        this.facultyColor = facultyColor;
     }
 
-    // Getters and Setters
-    public Long getID() { // Изменено на getID
-        return ID;
+    // Геттеры и сеттеры
+    public Long getId() {
+        return id;
     }
 
-    public void setID(Long ID) { // Изменено на setID
-        this.ID = ID;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -40,19 +40,11 @@ public class StudentDTO {
         this.age = age;
     }
 
-    public Long getFacultyId() { // Изменено на getFacultyId
+    public Long getFacultyId() {
         return facultyId;
     }
 
-    public void setFacultyId(Long facultyId) { // Изменено на setFacultyId
+    public void setFacultyId(Long facultyId) {
         this.facultyId = facultyId;
-    }
-
-    public String getFacultyColor() { // Изменено на getFacultyColor
-        return facultyColor;
-    }
-
-    public void setFacultyColor(String facultyColor) { // Изменено на setFacultyColor
-        this.facultyColor = facultyColor;
     }
 }

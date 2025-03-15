@@ -1,5 +1,5 @@
 package ru.hogwarts.demoschool.model;
-
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -8,28 +8,27 @@ import java.util.Objects;
 public class Faculty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long IDfaculty; // Изменено на IDfaculty
-    private String namefaculty; // Оставлено без изменений
-    private String colorfaculty; // Оставлено без изменений
+    private Long IDfaculty;
+    private String namefaculty;
+    private String colorfaculty;
 
     @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Student> students; // Оставлено без изменений
+    @JsonManagedReference // Указываем, что это "управляющая" ссылка
+    private List<Student> students;
 
-    public Faculty() {
-    }
+    public Faculty() {}
 
-    public Faculty(Long IDfaculty, String namefaculty, String colorfaculty) { // Обновленный конструктор
+    public Faculty(Long IDfaculty, String namefaculty, String colorfaculty) {
         this.IDfaculty = IDfaculty;
         this.namefaculty = namefaculty;
         this.colorfaculty = colorfaculty;
     }
 
-    // Геттеры и сеттеры
-    public Long getIDfaculty() { // Изменено на getIDfaculty
+    public Long getIDfaculty() {
         return IDfaculty;
     }
 
-    public void setIDfaculty(Long IDfaculty) { // Изменено на setIDfaculty
+    public void setIDfaculty(Long IDfaculty) {
         this.IDfaculty = IDfaculty;
     }
 

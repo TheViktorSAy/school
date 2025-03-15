@@ -1,5 +1,5 @@
 package ru.hogwarts.demoschool.model;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.util.Objects;
 
@@ -7,16 +7,19 @@ import java.util.Objects;
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ID; // Поле ID
-
-    private String name; // Поле name
-    private int age; // Поле age
+    private Long ID;
+    private String name;
+    private int age;
 
     @ManyToOne
     @JoinColumn(name = "faculty_id", nullable = false)
-    private Faculty faculty; // Связь с Faculty
+    @JsonBackReference // Указываем, что это "обратная" ссылка
+    private Faculty faculty;
 
-    // Конструкторы
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "avatar_id")
+    private Avatar avatar;
+
     public Student() {}
 
     public Student(String name, int age, Faculty faculty) {
@@ -25,12 +28,11 @@ public class Student {
         this.faculty = faculty;
     }
 
-    // Геттеры и сеттеры
-    public Long getID() { // Метод getID
+    public Long getID() {
         return ID;
     }
 
-    public void setID(Long ID) { // Метод setID
+    public void setID(Long ID) {
         this.ID = ID;
     }
 
@@ -56,6 +58,14 @@ public class Student {
 
     public void setFaculty(Faculty faculty) {
         this.faculty = faculty;
+    }
+
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
     }
 
     @Override

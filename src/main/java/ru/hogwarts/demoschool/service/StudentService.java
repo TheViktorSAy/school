@@ -2,6 +2,7 @@ package ru.hogwarts.demoschool.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.hogwarts.demoschool.dto.StudentDTO;
 import ru.hogwarts.demoschool.model.Faculty;
 import ru.hogwarts.demoschool.model.Student;
 import ru.hogwarts.demoschool.repository.FacultyRepository;
@@ -20,36 +21,36 @@ public class StudentService {
         this.facultyRepository = facultyRepository;
     }
 
-    public Student createStudent(String name, int age, Long facultyId) { // Изменено на facultyId
-        Faculty faculty = facultyRepository.findById(facultyId)
+    public Student createStudent(StudentDTO studentDTO) {
+        Faculty faculty = facultyRepository.findById(studentDTO.getFacultyId())
                 .orElseThrow(() -> new RuntimeException("Faculty not found"));
-        Student student = new Student(name, age, faculty);
+        Student student = new Student(studentDTO.getName(), studentDTO.getAge(), faculty);
         return studentRepository.save(student);
     }
 
-    public Student getStudent(Long id) { // Оставлено без изменений
-        return studentRepository.findById(id).orElse(null);
+    public StudentDTO getStudentDTO(Long id) {
+        Student student = studentRepository.findById(id).orElse(null);
+        if (student != null) {
+            return new StudentDTO(student.getID(), student.getName(), student.getAge(), student.getFaculty().getIDfaculty());
+        }
+        return null; // Или выбросьте исключение, если студент не найден
     }
 
-    public List<Student> getAllStudents() { // Оставлено без изменений
+    public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
 
-    public Student updateStudent(Long id, String name, int age) { // Оставлено без изменений
+    public Student updateStudent(Long id, StudentDTO studentDTO) {
         Student student = studentRepository.findById(id).orElse(null);
         if (student != null) {
-            student.setName(name);
-            student.setAge(age);
+            student.setName(studentDTO.getName());
+            student.setAge(studentDTO.getAge());
             return studentRepository.save(student);
         }
         return null;
     }
 
-    public void deleteStudent(Long id) { // Оставлено без изменений
+    public void deleteStudent(Long id) {
         studentRepository.deleteById(id);
-    }
-
-    public List<Student> getStudentsByAgeRange(int min, int max) { // Оставлено без изменений
-        return studentRepository.findByAgeBetween(min, max);
     }
 }
