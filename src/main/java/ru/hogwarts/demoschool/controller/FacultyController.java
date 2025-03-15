@@ -23,7 +23,7 @@ public class FacultyController {
         return facultyService.createFaculty(namefaculty, colorfaculty);
     }
 
-    @GetMapping("/{idfaculty}") // Изменено на {idfaculty}
+    @GetMapping("/{idfaculty}")
     public Faculty getFaculty(@PathVariable Long idfaculty) {
         return facultyService.getFaculty(idfaculty);
     }
@@ -33,12 +33,13 @@ public class FacultyController {
         return facultyService.getAllFaculties();
     }
 
-    @PutMapping("/{idfaculty}") // Изменено на {idfaculty}
+    @PutMapping("/{idfaculty}")
     public Faculty updateFaculty(@PathVariable Long idfaculty, @RequestParam String namefaculty, @RequestParam String colorfaculty) {
         return facultyService.updateFaculty(idfaculty, namefaculty, colorfaculty);
     }
 
-    @DeleteMapping("/{idfaculty}") // Изменено на {idfaculty}
+
+    @DeleteMapping("/{idfaculty}")
     public void deleteFaculty(@PathVariable Long idfaculty) {
         facultyService.deleteFaculty(idfaculty);
     }
@@ -48,7 +49,7 @@ public class FacultyController {
         return facultyService.searchFaculties(query);
     }
 
-    @GetMapping("/{idfaculty}/students") // Изменено на {idfaculty}
+    @GetMapping("/{idfaculty}/students")
     public List<Student> getStudentsByFaculty(@PathVariable Long idfaculty) {
         return facultyService.getStudentsByFaculty(idfaculty);
     }
