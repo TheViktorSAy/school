@@ -12,10 +12,10 @@ public class Avatar {
     private long fileSize;
     private String mediaType;
 
-    @Lob
+    @ Lob
     private byte[] data;
 
-    @OneToOne
+    @OneToOne(mappedBy = "avatar")
     private Student student;
 
     public Avatar() {}
