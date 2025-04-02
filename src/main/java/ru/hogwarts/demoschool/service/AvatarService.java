@@ -1,6 +1,8 @@
 package ru.hogwarts.demoschool.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.demoschool.model.Avatar;
@@ -50,8 +52,8 @@ public class AvatarService {
         return avatarRepository.findById(id);
     }
 
-    public List<Avatar> getAllAvatars() {
-        return avatarRepository.findAll();
+    public Page<Avatar> getAllAvatars(Pageable pageable) {
+        return avatarRepository.findAll(pageable);
     }
 
     public boolean deleteAvatar(Long id) {
