@@ -53,4 +53,16 @@ public class StudentService {
     public void deleteStudent(Long id) {
         studentRepository.deleteById(id);
     }
+
+    public long getStudentCount() {
+        return studentRepository.countStudents();
+    }
+
+    public double getAverageAge() {
+        return studentRepository.averageAge();
+    }
+
+    public List<Student> getLastFiveStudents() {
+        return studentRepository.findTop5ByOrderByIdDesc();
+    }
 }

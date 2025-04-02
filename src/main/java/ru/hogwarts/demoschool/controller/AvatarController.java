@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -58,10 +60,12 @@ public class AvatarController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @Operation(summary = "Get all avatars")
+    @Operation(summary = "Get all avatars with pagination")
     @GetMapping
-    public ResponseEntity<List<Avatar>> getAllAvatars() {
-        List<Avatar> avatars = avatarService.getAllAvatars();
+    public ResponseEntity<Page<Avatar>> getAllAvatars(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Page<Avatar> avatars = avatarService.getAllAvatars(PageRequest.of(page, size));
         return ResponseEntity.ok(avatars);
     }
 
