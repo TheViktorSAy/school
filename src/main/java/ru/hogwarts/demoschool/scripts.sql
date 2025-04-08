@@ -31,7 +31,7 @@ DELETE FROM public.hogwarts WHERE name = 'Василий';
 
 DELETE FROM public.hogwarts WHERE name = 'Гермиона';
 
-INSERT INTO public.hogwarts (ID, name, age, "namefaculty", "colorfaculty", "idfaculty")
-VALUES (12, 'Павел', 50, 'Гриффендор', 'Красный', 1);
+INSERT INTO public.student (ID, name, age, "faculty_id")
+VALUES (3, 'Павел', 50, 1);
 
 DELETE FROM public.hogwarts WHERE name = 'Павел';
