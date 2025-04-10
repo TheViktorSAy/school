@@ -1,9 +1,12 @@
 package ru.hogwarts.demoschool.service;
 
+
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.demoschool.model.Avatar;
 import ru.hogwarts.demoschool.model.Student;
@@ -29,7 +32,7 @@ public class AvatarService {
         this.avatarRepository = avatarRepository;
         this.studentRepository = studentRepository;
     }
-
+@Transactional
     public Avatar saveAvatar(MultipartFile file, Long studentId) throws IOException {
         Avatar avatar = new Avatar();
         avatar.setFilePath(file.getOriginalFilename());
