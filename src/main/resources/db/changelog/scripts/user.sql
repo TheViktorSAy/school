@@ -1,4 +1,4 @@
--- liquibase formatted sql
+--liquibase formatted sql
 --changeset vkostenko:create_index
 --preconditions onFail:MARK_RAN onError:HALT
 
