@@ -21,6 +21,9 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 public class AvatarService {
     private final AvatarRepository avatarRepository;
@@ -32,8 +35,9 @@ public class AvatarService {
         this.avatarRepository = avatarRepository;
         this.studentRepository = studentRepository;
     }
-@Transactional
+    @Transactional
     public Avatar saveAvatar(MultipartFile file, Long studentId) throws IOException {
+        logger.info("Was invoked method for saveAvatar");
         Avatar avatar = new Avatar();
         avatar.setFilePath(file.getOriginalFilename());
         avatar.setFileSize(file.getSize());
@@ -52,14 +56,17 @@ public class AvatarService {
     }
 
     public Optional<Avatar> getAvatar(Long id) {
+        logger.info("Was invoked method for getAvatar with id: {}", id);
         return avatarRepository.findById(id);
     }
 
     public Page<Avatar> getAllAvatars(Pageable pageable) {
+        logger.info("Was invoked method for getAllAvatars");
         return avatarRepository.findAll(pageable);
     }
 
     public boolean deleteAvatar(Long id) {
+        logger.info("Was invoked method for deleteAvatar with id: {}", id);
         if (avatarRepository.existsById(id)) {
             avatarRepository.deleteById(id);
             return true;
