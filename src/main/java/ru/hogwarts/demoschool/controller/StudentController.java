@@ -9,6 +9,7 @@ import ru.hogwarts.demoschool.service.FacultyService;
 import ru.hogwarts.demoschool.service.StudentService;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 @RestController
@@ -83,5 +84,53 @@ public class StudentController {
                 .limit(1_000_000)
                 .parallel() // Используем параллельный стрим
                 .reduce(0, Integer::sum);
+    }
+    // Новый эндпоинт для параллельного вывода имен студентов
+    @GetMapping("/print-parallel")
+    public void printStudentsParallel() {
+        List<Student> students = studentService.getAllStudents();
+
+        // Печатаем первые два имени в основном потоке
+        System.out.println(students.get(0).getName());
+        System.out.println(students.get(1).getName());
+
+        // Печатаем третьего и четвертого студентов в параллельном потоке
+        CompletableFuture.runAsync(() -> {
+            System.out.println(students.get(2).getName());
+            System.out.println(students.get(3).getName());
+        });
+
+        // Печатаем пятого и шестого студентов в еще одном параллельном потоке
+        CompletableFuture.runAsync(() -> {
+            System.out.println(students.get(4).getName());
+            System.out.println(students.get(5).getName());
+        });
+    }
+
+    // Новый эндпоинт для синхронизированного вывода имен студентов
+    @GetMapping("/print-synchronized")
+    public void printStudentsSynchronized() {
+        List<Student> students = studentService.getAllStudents();
+
+        // Печатаем первые два имени в основном потоке
+        printStudentName(students.get(0).getName());
+        printStudentName(students.get(1).getName());
+
+        // Печатаем третьего и четвертого студентов в параллельном потоке
+        CompletableFuture.runAsync(() -> {
+            printStudentName(students.get(2).getName());
+            printStudentName(students.get(3).getName());
+        });
+
+        // Печатаем пятого и шестого студентов в еще одном параллельном потоке
+        CompletableFuture.runAsync(() -> {
+            printStudentName(students.get(4).getName());
+            printStudentName(students.get(5).getName());
+        });
+    }
+
+    // Синхронизированный метод для вывода имени студента
+    private synchronized void printStudentName(String name) {
+        System.out.println(name);
     }
 }
