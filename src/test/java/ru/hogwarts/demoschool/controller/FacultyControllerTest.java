@@ -34,7 +34,6 @@ public class FacultyControllerTest {
 
     @Test
     public void testGetFaculty() {
-        // Создайте факультет перед тестом, чтобы он существовал в базе данных
         ResponseEntity<Faculty> createResponse = restTemplate.postForEntity("/faculty", faculty, Faculty.class);
         assertThat(createResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
@@ -53,22 +52,20 @@ public class FacultyControllerTest {
 
     @Test
     public void testUpdateFaculty() {
-        // Создайте факультет перед обновлением
         ResponseEntity<Faculty> createResponse = restTemplate.postForEntity("/faculty", faculty, Faculty.class);
         assertThat(createResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
-        faculty.setIDfaculty(1L); // Убедитесь, что ID соответствует существующему факультету
+        faculty.setIDfaculty(1L);
         faculty.setNamefaculty("Слизерин");
         restTemplate.put("/faculty/1", faculty);
 
         ResponseEntity<Faculty> response = restTemplate.getForEntity("/faculty/1", Faculty.class);
-        assertThat(response.getBody()).isNotNull(); // Проверка на null
+        assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getNamefaculty()).isEqualTo("Слизерин");
     }
 
     @Test
     public void testDeleteFaculty() {
-        // Создайте факультет перед удалением
         ResponseEntity<Faculty> createResponse = restTemplate.postForEntity("/faculty", faculty, Faculty.class);
         assertThat(createResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 

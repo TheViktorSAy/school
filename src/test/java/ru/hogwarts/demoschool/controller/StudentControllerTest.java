@@ -35,7 +35,6 @@ public class StudentControllerTest {
 
     @Test
     public void testGetStudent() {
-        // Создайте студента перед тестом, чтобы он существовал в базе данных
         ResponseEntity<Student> createResponse = restTemplate.postForEntity("/student", studentDTO, Student.class);
         assertThat(createResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
@@ -54,27 +53,37 @@ public class StudentControllerTest {
 
     @Test
     public void testUpdateStudent() {
-        // Создайте студента перед обновлением
         ResponseEntity<Student> createResponse = restTemplate.postForEntity("/student", studentDTO, Student.class);
         assertThat(createResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
-        studentDTO.setId(1L); // Убедитесь, что ID соответствует существующему студенту
+        studentDTO.setId(1L);
         studentDTO.setName("Гермиона");
         restTemplate.put("/student/1", studentDTO);
 
         ResponseEntity<StudentDTO> response = restTemplate.getForEntity("/student/1", StudentDTO.class);
-        assertThat(response.getBody()).isNotNull(); // Проверка на null
+        assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getName()).isEqualTo("Гермиона");
     }
 
     @Test
     public void testDeleteStudent() {
-        // Создайте студента перед удалением
         ResponseEntity<Student> createResponse = restTemplate.postForEntity("/student", studentDTO, Student.class);
         assertThat(createResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
         restTemplate.delete("/student/1");
         ResponseEntity<StudentDTO> response = restTemplate.getForEntity("/student/1", StudentDTO.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    public void testPrintStudentsParallel() {
+        ResponseEntity<String> response = restTemplate.getForEntity("/student/print-parallel", String.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void testPrintStudentsSynchronized() {
+        ResponseEntity<String> response = restTemplate.getForEntity("/student/print-synchronized", String.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 }

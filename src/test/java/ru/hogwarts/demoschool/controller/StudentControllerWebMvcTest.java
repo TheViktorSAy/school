@@ -3,8 +3,7 @@ package ru.hogwarts.demoschool.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -29,7 +28,7 @@ public class StudentControllerWebMvcTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private StudentService studentService; // Используйте @MockBean вместо @Mock
+    private StudentService studentService;
 
     private StudentDTO studentDTO;
 
@@ -76,12 +75,24 @@ public class StudentControllerWebMvcTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(studentDTO)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Гермиона"));
+                .andExpect(jsonPath("$.name").value ("Гермиона"));
     }
 
     @Test
     public void testDeleteStudent() throws Exception {
         mockMvc.perform(delete("/student/1"))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void testPrintStudentsParallel() throws Exception {
+        mockMvc.perform(get("/student/print-parallel"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testPrintStudentsSynchronized() throws Exception {
+        mockMvc.perform(get("/student/print-synchronized"))
+                .andExpect(status().isOk());
     }
 }
