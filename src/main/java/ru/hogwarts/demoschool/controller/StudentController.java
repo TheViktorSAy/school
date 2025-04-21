@@ -9,6 +9,7 @@ import ru.hogwarts.demoschool.service.FacultyService;
 import ru.hogwarts.demoschool.service.StudentService;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/student")
@@ -54,7 +55,11 @@ public class StudentController {
 
     @GetMapping("/average-age")
     public double getAverageAge() {
-        return studentService.getAverageAge();
+        List<Student> students = studentService.getAllStudents();
+        return students.stream()
+                .mapToInt(Student::getAge)
+                .average()
+                .orElse(0.0);
     }
 
     @GetMapping("/last-five")
@@ -72,15 +77,11 @@ public class StudentController {
                 .toList();
     }
 
-    @GetMapping("/longest-faculty-name")
-    public String getLongestFacultyName() {
-        return facultyService.getAllFaculties().stream()
-                .map(Faculty::getNamefaculty)
-                .reduce("", (a, b) -> a.length() >= b.length() ? a : b);
-    }
-
     @GetMapping("/sum")
     public int getSum() {
-        return (1_000_000 * (1_000_000 + 1)) / 2; // Формула суммы арифметической прогрессии
+        return Stream.iterate(1, a -> a + 1)
+                .limit(1_000_000)
+                .parallel() // Используем параллельный стрим
+                .reduce(0, Integer::sum);
     }
 }
